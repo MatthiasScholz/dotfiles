@@ -57,7 +57,7 @@ dotfiles over there.
 
 5. Install these dotfiles:
    ```sh
-   nix-shell -p git nixFlakes make
+   nix-shell -p git nixFlakes gnumake
 
    # Set HOST to the desired hostname of this system
    HOST=...
