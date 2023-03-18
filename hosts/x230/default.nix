@@ -6,46 +6,46 @@
   ];
 
   # Select internationalisation properties.
-  i18n = {
-    defaultLocale = "en_US.UTF-8";
-  };
+  #i18n = {
+  #  defaultLocale = "en_US.UTF-8";
+  #};
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  #services.xserver.enable = true;
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  #services.xserver.displayManager.gdm.enable = true;
+  #services.xserver.desktopManager.gnome.enable = true;
 
 
   # Configure keymap in X11
-  services.xserver.layout = "de";
+  #services.xserver.layout = "de";
   #services.xserver.xkbOptions = {
   #  "eurosign:e"
   #  #   "caps:escape" # map caps to escape.
   #};
-  console = {
-    font = "Lat2-Terminus16";
-    useXkbConfig = true; # use xkbOptions in tty.
-  };
+  #console = {
+  #  font = "Lat2-Terminus16";
+  #  useXkbConfig = true; # use xkbOptions in tty.
+  #};
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
 
   # Enable sound.
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
+  #sound.enable = true;
+  #hardware.pulseaudio.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
-  services.xserver.libinput.enable = true;
+  #services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  nixpkgs.config.allowUnfree = true;
+  #nixpkgs.config.allowUnfree = true;
 
   ## Modules
   modules = {
     desktop = {
-      #bspwm.enable = true;
+      bspwm.enable = true;
       apps = {
         rofi.enable = true;
         # godot.enable = true;
