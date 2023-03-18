@@ -6,13 +6,13 @@
   ];
 
   # filesystem configuration updates based on BTRFS
-  fileSystems = { 
-     "/".options = [ "compress=zstd" ]; 
-     "/home".options = [ "compress=zstd" ]; 
-     "/nix".options = [ "compress=zstd" "noatime" ]; 
-     "/swap".options = [ "noatime" ]; 
-  }; 
-  swapDevices = [ { device = "/swap/swapfile"; } ];
+  fileSystems = { 
+     "/".options = [ "compress=zstd" ];
+     "/home".options = [ "compress=zstd" ];
+     "/nix".options = [ "compress=zstd" "noatime" ];
+     "/swap".options = [ "noatime" ];
+  };
+  swapDevices = [ { device = "/swap/swapfile"; } ];
 
   # Select internationalisation properties.
   #i18n = {
