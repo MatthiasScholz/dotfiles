@@ -1,5 +1,5 @@
 {
-  description = "Additional hardware support for Thinkpad x230";
+  #description = "Additional hardware support for Thinkpad x230";
   inputs.nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
   outputs = { self, nixpkgs, nixos-hardware }: {
