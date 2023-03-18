@@ -4,7 +4,7 @@
 
   outputs = { self, nixpkgs, nixos-hardware }: {
     # replace <your-hostname> with your actual hostname
-    nixosConfigurations.<your-hostname> = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.x230 = nixpkgs.lib.nixosSystem {
       # ...
       modules = [
         # ...
