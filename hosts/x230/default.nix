@@ -127,5 +127,5 @@
 
   hardware.opengl.enable = true;
   
-  time.timeZon = "Europe/Berlin";
+  time.timeZone = "Europe/Berlin";
 }
