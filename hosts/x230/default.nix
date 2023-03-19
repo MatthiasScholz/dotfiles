@@ -3,6 +3,7 @@
   imports = [
     ../home.nix
     ./hardware-configuration.nix
+     inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x230
   ];
 
   # filesystem configuration updates based on BTRFS
