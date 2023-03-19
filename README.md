@@ -87,6 +87,9 @@ dotfiles over there.
 
 6. Then reboot and you're good to go!
 
+7. Connect to wifi using Network Manager:
+   `sudo nmcli device wifi connect <SSID> password <password>
+
 > :warning: **Don't forget to change your `root` and `$USER` passwords!** They
 > are set to `nixos` by default.
 
