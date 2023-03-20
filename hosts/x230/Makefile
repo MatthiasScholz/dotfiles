@@ -7,13 +7,14 @@ disk:
 	mount | grep btrfs
 
 memory := 8192
-_swapfile := /mnt/swap/swapfile
+_swap ?= /mnt/swap
+_swapfile := $(_swap)/swapfile
 swap:
 	# >= 6.1: btrfs filesystem mkswapfile $(_swapfile)
 	# prior:
 	truncate -s 0 $(_swapfile)
 	chattr +C $(_swapfile)
-	btrfs property set $(_swapfile) compression none
+	btrfs property set $(_swap) compression none
 	dd if=/dev/zero of=$(_swapfile) bs=1M count=$(memory)
 	chmod 0600 $(_swapfile)
 	mkswap $(_swapfile)
