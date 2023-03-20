@@ -60,10 +60,10 @@
       };
       gaming = {};
       media = {
-        daw.enable = true;
+        #daw.enable = true;
         documents.enable = true;
         # FIXME broken gimp-plugin
-        # graphics.enable = true;
+        graphics.enable = true;
         # FIXME mpv-with-scripts has been renamed
         # mpv.enable = true;
         #recording.enable = true;
