@@ -83,8 +83,8 @@
     };
     editors = {
       default = "nvim";
-      #emacs.enable = true;
-      #emacs.doom.enable = true;
+      emacs.enable = true;
+      emacs.doom.enable = true;
       vim.enable = true;
     };
     shell = {
