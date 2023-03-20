@@ -115,6 +115,14 @@ XF86MonBrightnessUp
 XF86MonBrightnessDown
 	light -U 5
 
+# FIXME get above working
+super + shift + b
+	light -A 5
+
+# FIXME get above working
+super + alt + b
+	light -U 5
+
 XF86AudioMute
 	amixer -q set Master toggle
 XF86AudioLowerVolume
