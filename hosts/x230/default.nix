@@ -54,8 +54,7 @@
       media = {
         #daw.enable = true;
         documents.enable = true;
-        # FIXME insecure Python
-        # graphics.enable = true;
+        graphics.enable = true;
         # FIXME mpv-with-scripts has been renamed
         # mpv.enable = true;
         #recording.enable = true;

@@ -15,9 +15,10 @@ in {
   options.modules.desktop.media.graphics = {
     enable         = mkBoolOpt false;
     tools.enable   = mkBoolOpt true;
-    raster.enable  = mkBoolOpt true;
-    vector.enable  = mkBoolOpt true;
-    sprites.enable = mkBoolOpt true;
+    organizer.enable = mkBoolOpt true;
+    raster.enable  = mkBoolOpt false;
+    vector.enable  = mkBoolOpt false;
+    sprites.enable = mkBoolOpt false;
     models.enable  = mkBoolOpt false;
   };
 
@@ -26,6 +27,11 @@ in {
       (if cfg.tools.enable then [
         font-manager   # so many damned fonts...
         imagemagick    # for image manipulation from the shell
+      ] else []) ++
+
+      # replaces lightroom
+      (if cfg.organizer.enable then [
+        unstable.darktable
       ] else []) ++
 
       # replaces illustrator & indesign
