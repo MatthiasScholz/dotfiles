@@ -71,6 +71,7 @@
     };
     
     dev = {
+      golang.enable = true;
       #node.enable = true;
       #rust.enable = true;
       #python.enable = true;
