@@ -63,13 +63,10 @@ in {
 
     system.userActivationScripts = mkIf cfg.doom.enable {
       installDoomEmacs = ''
-        git clone --depth=1 --single-branch https://github.com/doomemacs/doomemacs /home/matthias/.config/emacs
-        git clone https://github.com/matthiasscholztw/doom-emacs-config /home/matthias/.config/doom
-        #FIXME move doom emacs installation into different folder + configure switch (check mac)
-        #if [ ! -d "$XDG_CONFIG_HOME/emacs" ]; then
-        #   git clone --depth=1 --single-branch "${cfg.doom.repoUrl}" "$XDG_CONFIG_HOME/emacs"
-        #   git clone "${cfg.doom.configRepoUrl}" "$XDG_CONFIG_HOME/doom"
-        #fi
+        if [ ! -d "$XDG_CONFIG_HOME/emacs" ]; then
+           git clone --depth=1 --single-branch "${cfg.doom.repoUrl}" "$XDG_CONFIG_HOME/emacs"
+           git clone "${cfg.doom.configRepoUrl}" "$XDG_CONFIG_HOME/doom"
+        fi
       '';
     };
   };
