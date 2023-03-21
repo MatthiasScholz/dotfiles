@@ -2,7 +2,7 @@
 
 with lib;
 with lib.my;
-let cfg = config.modules.desktop.bspwm;
+let cfg = config.modules.desktop.gnome;
     configDir = config.dotfiles.configDir;
 in {
   options.modules.desktop.gnome = {
