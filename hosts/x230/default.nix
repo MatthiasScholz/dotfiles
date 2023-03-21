@@ -20,13 +20,6 @@
   #  defaultLocale = "en_US.UTF-8";
   #};
 
-  # Enable the X11 windowing system.
-  #services.xserver.enable = true;
-
-  # Enable the GNOME Desktop Environment.
-  #services.xserver.displayManager.gdm.enable = true;
-  #services.xserver.desktopManager.gnome.enable = true;
-
 
   # Configure keymap in X11
   #services.xserver.layout = "de";
@@ -46,7 +39,8 @@
   ## Modules
   modules = {
     desktop = {
-      bspwm.enable = true;
+      #bspwm.enable = true;
+      gnome.enable = true;
       apps = {
         rofi.enable = true;
         # godot.enable = true;
