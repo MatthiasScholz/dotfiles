@@ -89,6 +89,7 @@
       gnupg.enable  = true;
       tmux.enable   = true;
       zsh.enable    = true;
+      onepassword.enable = true;
     };
     services = {
       ssh.enable = true;

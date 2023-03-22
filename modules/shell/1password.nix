@@ -9,7 +9,7 @@ with lib;
 with lib.my;
 let cfg = config.modules.shell.1password;
 in {
-  options.modules.shell.1password = {
+  options.modules.shell.onepassword = {
     enable = mkBoolOpt false;
   };
 
