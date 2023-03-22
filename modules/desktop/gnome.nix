@@ -16,10 +16,8 @@ in {
       xserver = {
         # Enable the X11 windowing system.
         enable = true;
-        displayManager = {
-          gdm.enable = true;
-          gnome.enable = true;
-        };
+        displayManager.gdm.enable = true;
+        desktopManager.gnome.enable = true;
       };
     };
 
