@@ -22,11 +22,11 @@ in {
     };
 
     # link recursively so other modules can link files in their folders
-    home.configFile = {
-      "gnome" = {
-        source = "${configDir}/gnome";
-        recursive = true;
-      };
-    };
+    #home.configFile = {
+    #  "gnome" = {
+    #    source = "${configDir}/gnome";
+    #    recursive = true;
+    #  };
+    #};
   };
 }
