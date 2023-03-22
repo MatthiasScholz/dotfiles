@@ -63,6 +63,7 @@ in {
 
     system.userActivationScripts = mkIf cfg.doom.enable {
       installDoomEmacs = ''
+        PATH=$PATH:${lib.makeBinPath [ pkgs.git ]}
         if [ ! -d "$XDG_CONFIG_HOME/emacs" ]; then
            git clone --depth=1 --single-branch "${cfg.doom.repoUrl}" "$XDG_CONFIG_HOME/emacs"
            git clone "${cfg.doom.configRepoUrl}" "$XDG_CONFIG_HOME/doom"
