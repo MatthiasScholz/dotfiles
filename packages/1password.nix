@@ -3,7 +3,7 @@
 { lib, stdenv, fetchzip, autoPatchelfHook, fetchurl, xar, cpio }:
 
 stdenv.mkDerivation rec {
-  pname = "1password";
+  pname = "onepassword";
   # latest: 2.15.0 (https://app-updates.agilebits.com/product_history/CLI2)
   version = "2.15.0";
   src =

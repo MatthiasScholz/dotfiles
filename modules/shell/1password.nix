@@ -18,7 +18,7 @@ in {
       # Dependencies
 
       # The star of the show
-      my.1password
+      my.onepassword
     ];
   };
 }
