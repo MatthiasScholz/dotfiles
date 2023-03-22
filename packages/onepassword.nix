@@ -15,7 +15,7 @@ stdenv.mkDerivation rec {
             #"aarch64-linux" = "https://cache.agilebits.com/dist/1P/op2/pkg/v${version}/op_linux_arm64_v${version}.zip";
           }.${stdenv.hostPlatform.system};
           sha256 = {
-            "x86_64-linux" = "43c07841c10f1f7af6b03b27edcdd569024697cc9fa79c508af6b2d081c37188";
+            "x86_64-linux" = "sha256-Mxp6wCwBUNNucN0W0awghUzg2OQTkrwKsZgS/nVP41M=";
             #"aarch64-linux" = "sha256-17cS/Sf+DPZDlUsDYrO37vI6zjkeDhWXWQ/wk1jSAYo=";
           }.${stdenv.hostPlatform.system};
           stripRoot = false;
