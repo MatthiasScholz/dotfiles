@@ -32,6 +32,7 @@ in {
       # replaces lightroom
       (if cfg.organizer.enable then [
         unstable.darktable
+        unstable.rawtherapee
       ] else []) ++
 
       # replaces illustrator & indesign
