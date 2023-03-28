@@ -24,7 +24,7 @@ in {
         tfsec
         conftest
         open-policy-agent
-        (mkif (cfg.aws.enable)
+        (mkIf (cfg.aws.enable)
           awscli2
           aws-vault
           # TODO my.clok-sm
