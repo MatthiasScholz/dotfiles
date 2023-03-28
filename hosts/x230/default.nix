@@ -71,6 +71,8 @@
     
     dev = {
       golang.enable = true;
+      iac.enable = true;
+      iac.aws.enable = true;
       #node.enable = true;
       #rust.enable = true;
       #python.enable = true;
