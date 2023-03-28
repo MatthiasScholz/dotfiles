@@ -24,11 +24,12 @@ in {
         tfsec
         conftest
         open-policy-agent
-        (mkIf (cfg.aws.enable)
-          awscli2
-          aws-vault
-          # TODO my.clok-sm
-        )
+        # FIXME not working - attempt to call something which is not a function but a set
+        #(mkIf (cfg.aws.enable)
+        #  awscli2
+        #  aws-vault
+        #  # TODO my.clok-sm
+        #)
       ];
     })
   ];
