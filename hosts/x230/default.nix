@@ -59,6 +59,7 @@
         # mpv.enable = true;
         #recording.enable = true;
         spotify.enable = true;
+        vlc.enable = true;
       };
       term = {
         default = "xst";
