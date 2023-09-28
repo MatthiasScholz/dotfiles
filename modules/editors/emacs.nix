@@ -67,6 +67,7 @@ in {
         if [ ! -d "$XDG_CONFIG_HOME/emacs" ]; then
            git clone --depth=1 --single-branch "${cfg.doom.repoUrl}" "$XDG_CONFIG_HOME/emacs"
            git clone "${cfg.doom.configRepoUrl}" "$XDG_CONFIG_HOME/doom"
+           $XDG_CONFIG_HOME/emacs/bin/doom install
         fi
       '';
     };
