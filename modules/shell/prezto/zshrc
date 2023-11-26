@@ -1,0 +1,301 @@
+#
+# Executes commands at the start of an interactive session.
+#
+# Authors:
+#   Sorin Ionescu <sorin.ionescu@gmail.com>
+#
+
+# Source Prezto.
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
+
+# Customize to your needs...
+export LC_ALL=en_US.UTF-8
+
+
+# Support user binaries
+PATH="${HOME}/bin:$(brew --prefix)/opt/grep/libexec/gnubin:${PATH}"
+
+# TODO Configure to start emacs as client
+#EDITOR='emacsclient -c -n -a ""'
+
+
+##########################
+# Import bash configuration
+# source ~/.profile
+
+#########################
+# Nix
+source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+source /nix/var/nix/profiles/default/etc/profile.d/nix.sh
+
+alias nix-direnv-init='nix flake new -t github:nix-community/nix-direnv .'
+
+#########################
+# Helper
+# Disconnect from network, remove routes, reconnect and test
+alias vpn_fix='sudo ifconfig en0 down; sudo route -n flush; sudo route -n flush; sudo route -n flush; sudo route -n flush; sudo route -n flush; sudo route -n flush; sudo ifconfig en0 up; ping -t 1 8.8.8.8'
+
+alias fix_gopass_gpg_agent='gpgconf --kill all'
+
+# Cleanup Node Modules Folder
+alias cleanup_node_modules='find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +'
+
+# Cleanup Terraform Folder
+alias cleanup_terraform='find . -name '.terraform' -type d -prune -exec rm -rf '{}' +'
+
+# Improve Doomemacs vterm support
+# https://github.com/akermu/emacs-libvterm#shell-side-configuration
+vterm_printf() {
+    if [ -n "$TMUX" ] && ([ "${TERM%%-*}" = "tmux" ] || [ "${TERM%%-*}" = "screen" ]); then
+        # Tell tmux to pass the escape sequences through
+        printf "\ePtmux;\e\e]%s\007\e\\" "$1"
+    elif [ "${TERM%%-*}" = "screen" ]; then
+        # GNU screen (screen, screen-256color, screen-256color-bce)
+        printf "\eP\e]%s\007\e\\" "$1"
+    else
+        printf "\e]%s\e\\" "$1"
+    fi
+}
+
+# Directory tracking and Prompt tracking
+# https://github.com/akermu/emacs-libvterm#directory-tracking-and-prompt-tracking
+
+# https://github.com/akermu/emacs-libvterm/blob/master/etc/emacs-vterm-zsh.sh
+# Some of the most useful features in emacs-libvterm require shell-side
+# configurations. The main goal of these additional functions is to enable the
+# shell to send information to `vterm` via properly escaped sequences. A
+# function that helps in this task, `vterm_printf`, is defined below.
+
+function vterm_printf(){
+    if [ -n "$TMUX" ] && ([ "${TERM%%-*}" = "tmux" ] || [ "${TERM%%-*}" = "screen" ] ); then
+        # Tell tmux to pass the escape sequences through
+        printf "\ePtmux;\e\e]%s\007\e\\" "$1"
+    elif [ "${TERM%%-*}" = "screen" ]; then
+        # GNU screen (screen, screen-256color, screen-256color-bce)
+        printf "\eP\e]%s\007\e\\" "$1"
+    else
+        printf "\e]%s\e\\" "$1"
+    fi
+}
+
+# Completely clear the buffer. With this, everything that is not on screen
+# is erased.
+if [[ "$INSIDE_EMACS" = 'vterm' ]]; then
+    alias clear='vterm_printf "51;Evterm-clear-scrollback";tput clear'
+fi
+
+# With vterm_cmd you can execute Emacs commands directly from the shell.
+# For example, vterm_cmd message "HI" will print "HI".
+# To enable new commands, you have to customize Emacs's variable
+# vterm-eval-cmds.
+vterm_cmd() {
+    local vterm_elisp
+    vterm_elisp=""
+    while [ $# -gt 0 ]; do
+        vterm_elisp="$vterm_elisp""$(printf '"%s" ' "$(printf "%s" "$1" | sed -e 's|\\|\\\\|g' -e 's|"|\\"|g')")"
+        shift
+    done
+    vterm_printf "51;E$vterm_elisp"
+}
+
+# This is to change the title of the buffer based on information provided by the
+# shell. See, http://tldp.org/HOWTO/Xterm-Title-4.html, for the meaning of the
+# various symbols.
+autoload -U add-zsh-hook
+add-zsh-hook -Uz chpwd (){ print -Pn "\e]2;%m:%2~\a" }
+
+# Sync directory and host in the shell with Emacs's current directory.
+# You may need to manually specify the hostname instead of $(hostname) in case
+# $(hostname) does not return the correct string to connect to the server.
+#
+# The escape sequence "51;A" has also the role of identifying the end of the
+# prompt
+vterm_prompt_end() {
+    vterm_printf "51;A$(whoami)@$(hostname):$(pwd)"
+}
+setopt PROMPT_SUBST
+PROMPT=$PROMPT'%{$(vterm_prompt_end)%}'
+
+
+##########################
+# Python pyenv
+if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
+
+##########################
+# Ruby
+#if which ruby >/dev/null && which gem >/dev/null; then
+#  PATH="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$PATH"
+#fi
+
+##########################
+# NodeJS nvm
+# export NVM_DIR="$HOME/.nvm"
+
+# This loads nvm
+# [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"
+
+# # This loads nvm bash_completion
+# [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"
+
+##########################
+# Rust
+source $HOME/.cargo/env
+
+##########################
+# Alias Definition Section
+##########################
+
+# bsroot - file browsing on steroids
+alias lss=br -sdpw
+
+##########################
+# Docker
+##########################
+# Docker Cleanup
+alias docker-system-cleanup='docker system prune -a && docker image rm $(docker image ls -a -q) -f && docker volume rm $(docker volume ls -qf dangling=true)'
+
+# Exec last started container
+#alias docker-exec=docker exec -it $(docker ps -l --format '{{.ID}}') /bin/sh
+
+export DOCKER_HOST=unix://$HOME/.colima/docker.sock
+
+###########################
+# Terraform
+###########################
+export TF_PLUGIN_CACHE_DIR=~/.terraform.d/cache
+
+alias tfi='time terraform init -upgrade'
+alias tfrp='time terraform plan'
+alias tfp='time pwd && terraform plan -out=tfplan > /dev/null && tf-summarize tfplan'
+alias tfpt='time pwd && terraform plan -out=tfplan > /dev/null && tf-summarize -tree tfplan'
+alias tfpj='time pwd && terraform plan -out=tfplan > /dev/null && tf-summarize -json tfplan'
+alias tfpm="terraform plan -no-color | grep -E '^[[:punct:]]+ resource|~ resource|\+ resource |Plan' | sort"
+alias tfa='terraform apply'
+alias tfaa='time terraform apply -auto-approve'
+
+
+alias tmg='terramate generate'
+alias tmi='time terramate run -- terraform init -upgrade'
+alias tmpr='time terramate run -- terraform plan'
+alias tmp='time  terramate run -- sh -c "pwd && terraform plan -out=tfplan > /dev/null && tf-summarize tfplan"'
+alias tmpt='time  terramate run -- sh -c "pwd && terraform plan -out=tfplan > /dev/null && tf-summarize -tree tfplan"'
+alias tma='terramate run -- terraform apply'
+alias tmaa='time terramate run -- terraform apply -auto-approve'
+alias tms='terramate run -- pluralith graph --local-only --title "Stack" --show-changes=true'
+alias tmc='terramate run -- infracost breakdown --path . --usage-file ./infracost-usage.yml --sync-usage-file'
+alias tmgc='tmc && terramate run -- pluralith graph --title "Stack Costs" --cost-mode=total --show-changes=false --show-costs=true --cost-usage-file=infracost-usage.yml'
+alias tmclone='terramate experimental clone'
+
+# 1-Password
+alias pw_signin='eval $(op signin my)'
+eval "$(op completion zsh)"; compdef _op op
+
+# SSO
+alias aws_user='aws sts get-caller-identity'
+alias summon_aws='summon --provider summon-aws-secrets'
+alias summon_gopass='summon --provider gopass'
+
+function summon_shell {
+  local cmd=${1}
+  local secrets_file="${2:-/unset/secrets.yml}"
+  summon_aws -f "${secrets_file}" /bin/bash -ec ${cmd}
+}
+
+function aws_sso_1password {
+  # Input
+  local account="${1}"
+  local one_pw_id="${2}"
+  local user="${3}"
+
+  echo "INFO :: Getting credentials for SSO - unsure being signed into 1Password"
+  # NOTE: Currently using TOTP of 1Password does not work for Okta
+  local sso_ot="${3:-$(op item get --otp ${one_pw_id})}"
+  local sso_pw=$(op item get ${one_pw_id} --fields password)
+  #local sso_ci=$(op item get ${one_pw_id} --fields client-id)
+  #local sso_cs=$(op item get ${one_pw_id} --fields client-secret)
+
+  echo "INFO :: Login to AWS: ${account}"
+  saml2aws login \
+         --idp-account=${account} \
+         --profile default \
+         --region eu-central-1 \
+         --username=${user} \
+         --password "${sso_pw}" \
+         --skip-prompt
+}
+
+function onelogin {
+  set -e
+
+  local role_id=${1:-2}
+
+  echo "INFO :: Getting credentials for SSO - unsure being signed into 1Password"
+  local sso_pw=$(onelogin_pw)
+  local sso_ot=$(onelogin_ot)
+
+  echo "INFO :: Login to AWS with role_id: ${role_id}"
+  ~/bin/clisso.expect ${sso_pw} ${sso_ot} ${role_id}
+
+  export AWS_PROFILE=profile-aws
+
+  set +e
+}
+
+function onelogin_keychain {
+  set -e
+
+  local role_id=${1:-2}
+
+  echo "INFO :: Getting onelogin credentials - unsure being signed into 1Password"
+  local one_ot=$(onelogin_ot)
+
+  echo "INFO :: Login to AWS with role_id: ${role_id}"
+  ~/bin/clisso_keychain.expect ${one_ot} ${role_id}
+
+  export AWS_PROFILE=profile-aws
+
+  set +e
+}
+
+function onelogin_keychain_file {
+  set -e
+
+  local role_id=${1:-2}
+  local folder="${1:-/tmp}"
+
+  echo "INFO :: Getting onelogin credentials - unsure being signed into 1Password"
+  # FIXME alias does not exist anymore
+  local one_ot=$(onelogin_ot)
+
+  echo "INFO :: Login to AWS with role_id: ${role_id}"
+  local cred_file_path="/${folder}/aws_${role_id}.cred"
+  ~/bin/clisso_keychain_file.expect ${one_ot} ${role_id} "${cred_file_path}"
+
+  echo "INFO :: Wrote credentials to: ${cred_file_path}"
+
+  set +e
+}
+
+export PATH="/usr/local/opt/ruby/bin:/Users/matthias/go/bin:${PATH}"
+
+# Node.js Version Management
+export NVM_DIR="$HOME/.nvm"
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
+#source /Users/matthias/.config/broot/launcher/bash/br
+
+# Completion
+autoload -U +X bashcompinit && bashcompinit
+complete -C '/usr/local/bin/aws_completer' aws
+complete -o nospace -C '/usr/local/bin/terramate' terramate
+
+# GCP
+source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"
+source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+
+# Starship Shell Prompt
+# NOT WORKING source <(/usr/local/bin/starship init zsh --print-full-init)
+eval "$(starship init zsh)"
